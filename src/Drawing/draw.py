@@ -1,11 +1,16 @@
 from progress.spinner import Spinner
 import plotly.offline as plotly
 import plotly.graph_objs as go
-
+import os
 import pandas as pd
 
+try:
+    from ..config import StartingDataDirectory
+except:
+    from config import StartingDataDirectory
+
 def draw(zDataCSVName):
-    z_data = pd.read_csv('../Erosion/' + zDataCSVName)
+    z_data = pd.read_csv(os.path.join(StartingDataDirectory, zDataCSVName))
 
     data = [
         go.Surface(
@@ -38,5 +43,6 @@ def draw(zDataCSVName):
     spinner = Spinner('Drawing ')
     plotly.iplot(fig, filename='elevations-3d-suface')
     spinner.finish()
-    
-draw('test.csv')
+
+if __name__ == '__main__':
+    draw('test.csv')

@@ -1,13 +1,18 @@
 import csv
 import random
+import os
+try:
+    from ..config import StartingDataDirectory
+except:
+    from config import StartingDataDirectory
 
 def randomZ(z_max):
     #TODO: introduce some sort of smoothing over this, maybe a perlin noise?
     return random.randint(0, z_max)
 
-#TODO: generate a starting .csv of the form found in testData
-def generateStartingElevation(fileName, x_width=25, y_width=20, z_max=400):
+def generateStartingElevation(name, x_width=25, y_width=20, z_max=400):
     #TODO: save the file into the StartingData directory
+    fileName = os.path.join(StartingDataDirectory, name)
     with open(fileName, 'w', newline='') as csvfile:
         elevationwriter = csv.writer(csvfile, delimiter=' ', quotechar='|', quoting=csv.QUOTE_MINIMAL)
         columnHeaders = ',' + ','.join(map(str, range(x_width)))
@@ -19,6 +24,7 @@ def generateStartingElevation(fileName, x_width=25, y_width=20, z_max=400):
                 row = row + str(randomZ(z_max)) + ','
             elevationwriter.writerow(row)
 
-generateStartingElevation(fileName='test.csv')
+if __name__ == '__main__':
+    generateStartingElevation(name='test.csv')
 
 
