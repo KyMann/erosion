@@ -11,10 +11,10 @@ except:
 
 def draw(zDataCSVName):
     z_data = pd.read_csv(os.path.join(StartingDataDirectory, zDataCSVName))
-
+    print(z_data)
     data = [
         go.Surface(
-            z=z_data.as_matrix(),
+            z=z_data.to_numpy(),
             contours=go.surface.Contours(
                 z=go.surface.contours.Z(
                     show=True,
